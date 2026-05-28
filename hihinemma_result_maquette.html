@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hihinemma Result – Maquette</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --violet:     #7C3AED;
+    --violet-d:   #5B21B6;
+    --violet-l:   #A78BFA;
+    --violet-pale:#EDE9FE;
+    --accent:     #F59E0B;
+    --green:      #10B981;
+    --red:        #EF4444;
+    --dark:       #0F0A1E;
+    --dark2:      #1A1035;
+    --card:       #231746;
+    --text:       #E9E3FF;
+    --muted:      #9D8FBF;
+    --white:      #FFFFFF;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0a0714;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 30px 16px 60px;
+  }
+
+  /* ── TITRE LAB ── */
+  .lab-title {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .lab-title h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13pt;
+    color: var(--violet-l);
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .lab-title p {
+    font-size: 9pt;
+    color: var(--muted);
+  }
+
+  /* ── NAVIGATION ÉCRANS ── */
+  .nav-screens {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .nav-btn {
+    background: var(--card);
+    border: 1px solid #3d2d6e;
+    color: var(--muted);
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 9pt;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    background: var(--violet);
+    border-color: var(--violet);
+    color: #fff;
+  }
+
+  /* ── TÉLÉPHONE ── */
+  .phone-wrap {
+    position: relative;
+    width: 320px;
+  }
+  .phone {
+    width: 320px;
+    height: 660px;
+    background: var(--dark);
+    border-radius: 44px;
+    border: 8px solid #2a1f4e;
+    box-shadow:
+      0 0 0 1px #4c3a8a,
+      0 40px 80px rgba(124,58,237,.35),
+      inset 0 0 30px rgba(124,58,237,.05);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Notch */
+  .notch {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 110px; height: 28px;
+    background: #2a1f4e;
+    border-radius: 0 0 18px 18px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .notch-cam {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #1a1035;
+    border: 1px solid #4c3a8a;
+  }
+  .notch-mic {
+    width: 28px; height: 4px;
+    border-radius: 4px;
+    background: #1a1035;
+  }
+
+  /* Barre de status */
+  .status-bar {
+    position: absolute;
+    top: 28px; left: 0; right: 0;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 8pt;
+    color: var(--muted);
+    z-index: 9;
+    font-family: 'Syne', sans-serif;
+  }
+
+  /* ── ÉCRANS ── */
+  .screen {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: none;
+    flex-direction: column;
+    padding-top: 52px;
+  }
+  .screen.active { display: flex; }
+
+  /* ════════════════════════════
+     ÉCRAN 5 — CHATBOT
+  ════════════════════════════ */
+  #s-chat { background: var(--dark); }
+  .chat-header {
+    background: linear-gradient(135deg, var(--violet-d), var(--violet));
+    padding: 14px 18px;
+    display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+  }
+  .bot-avatar {
+    width: 40px; height: 40px; border-radius: 13px;
+    background: rgba(255,255,255,.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18pt; flex-shrink: 0; border: 1px solid rgba(255,255,255,.2);
+  }
+  .bot-name { font-family: 'Syne', sans-serif; font-size: 11pt; font-weight: 700; color: #fff; margin-bottom: 1px; }
+  .bot-status { display: flex; align-items: center; gap: 4px; font-size: 7.5pt; color: rgba(255,255,255,.7); }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+  .chat-messages {
+    flex: 1; overflow-y: auto; padding: 12px 12px 6px;
+    display: flex; flex-direction: column; gap: 9px; scroll-behavior: smooth;
+  }
+  .chat-messages::-webkit-scrollbar { width: 3px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: #3d2d6e; border-radius: 3px; }
+  .cmsg { display: flex; gap: 6px; align-items: flex-end; max-width: 100%; }
+  .cmsg.bot { justify-content: flex-start; }
+  .cmsg.user { justify-content: flex-end; }
+  .cmsg-avatar {
+    width: 24px; height: 24px; border-radius: 7px;
+    background: linear-gradient(135deg, var(--violet), var(--violet-d));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10pt; flex-shrink: 0;
+  }
+  .cmsg-bubble { padding: 8px 11px; border-radius: 14px; font-size: 8.5pt; line-height: 1.5; max-width: 210px; }
+  .cmsg.bot .cmsg-bubble { background: var(--card); border: 1px solid #3d2d6e; color: var(--text); border-bottom-left-radius: 3px; }
+  .cmsg.user .cmsg-bubble { background: linear-gradient(135deg, var(--violet), var(--violet-d)); color: #fff; border-bottom-right-radius: 3px; }
+  .cmsg-time { font-size: 6.5pt; color: var(--muted); margin-top: 2px; }
+  .cmsg.bot .cmsg-time { text-align: left; } .cmsg.user .cmsg-time { text-align: right; }
+  .typing-wrap { display: none; gap: 6px; align-items: flex-end; }
+  .typing-wrap.visible { display: flex; }
+  .typing-dots { background: var(--card); border: 1px solid #3d2d6e; border-radius: 14px; border-bottom-left-radius: 3px; padding: 9px 13px; display: flex; gap: 4px; align-items: center; }
+  .tdot { width: 5px; height: 5px; border-radius: 50%; background: var(--violet-l); animation: tbounce 1.2s infinite; }
+  .tdot:nth-child(2) { animation-delay: .2s; } .tdot:nth-child(3) { animation-delay: .4s; }
+  @keyframes tbounce { 0%,60%,100% { transform:translateY(0);opacity:.5; } 30% { transform:translateY(-5px);opacity:1; } }
+  .quick-sugg { padding: 5px 12px 6px; display: flex; gap: 5px; overflow-x: auto; flex-shrink: 0; }
+  .quick-sugg::-webkit-scrollbar { display: none; }
+  .qbtn { background: var(--card); border: 1px solid var(--violet); border-radius: 20px; padding: 4px 10px; color: var(--violet-l); font-size: 7.5pt; font-family: 'DM Sans', sans-serif; cursor: pointer; white-space: nowrap; transition: all .2s; flex-shrink: 0; }
+  .qbtn:hover { background: var(--violet); color: #fff; }
+  .chat-input-area { padding: 6px 10px 18px; display: flex; gap: 7px; align-items: center; background: var(--dark2); border-top: 1px solid #2a1f4e; flex-shrink: 0; }
+  .chat-input { flex: 1; background: var(--card); border: 1px solid #3d2d6e; border-radius: 20px; padding: 8px 12px; color: var(--text); font-size: 9pt; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color .2s; }
+  .chat-input:focus { border-color: var(--violet); }
+  .chat-input::placeholder { color: var(--muted); }
+  .mic-btn { width: 34px; height: 34px; border-radius: 11px; background: var(--card); border: 1px solid #3d2d6e; color: var(--violet-l); font-size: 14pt; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; }
+  .mic-btn:hover { border-color: var(--violet); }
+  .mic-btn.recording { background: rgba(239,68,68,.2); border-color: #EF4444; color: #EF4444; animation: pulse-mic 1s infinite; }
+  @keyframes pulse-mic { 0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,.4); } 50% { box-shadow: 0 0 0 6px rgba(239,68,68,0); } }
+  .send-btn { width: 34px; height: 34px; border-radius: 11px; background: linear-gradient(135deg, var(--violet), var(--violet-d)); border: none; color: #fff; font-size: 12pt; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; box-shadow: 0 4px 12px rgba(124,58,237,.4); }
+  .send-btn:hover { transform: scale(1.05); }
+  .send-btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+
+  /* ════════════════════════════
+     ÉCRAN 6 — PAIEMENT
+  ════════════════════════════ */
+  #s-pay { background: var(--dark); }
+  .pay-header {
+    background: linear-gradient(135deg, #1a3a1a, #0e2a0e);
+    padding: 14px 20px 20px;
+    margin-top: 52px;
+  }
+  .pay-header h3 { font-family:'Syne',sans-serif; font-size:13pt; font-weight:800; color:#fff; margin-bottom:2px; }
+  .pay-header p { font-size:8pt; color:#7a9a7a; }
+  .pay-body { padding: 12px 16px; flex:1; overflow:hidden; }
+
+  .pay-step { margin-bottom:14px; }
+  .step-label { font-family:'Syne',sans-serif; font-size:9pt; font-weight:700; color:var(--text); margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+  .step-num { width:20px; height:20px; border-radius:50%; background:var(--violet); color:#fff; font-size:8pt; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+  .service-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-bottom:4px; }
+  .service-card {
+    background:var(--card); border:1px solid #3d2d6e; border-radius:12px;
+    padding:10px 10px; text-align:center; cursor:pointer; transition:all .2s;
+  }
+  .service-card:hover, .service-card.selected { border-color:var(--violet); background:rgba(124,58,237,.15); }
+  .service-card .sc-icon { font-size:16pt; margin-bottom:4px; }
+  .service-card .sc-name { font-size:8pt; font-weight:600; color:var(--text); margin-bottom:1px; }
+  .service-card .sc-price { font-size:7.5pt; color:var(--violet-l); font-weight:700; }
+
+  .pay-methods { display:flex; flex-direction:column; gap:7px; }
+  .pay-method {
+    background:var(--card); border:1px solid #3d2d6e; border-radius:12px;
+    padding:10px 13px; display:flex; align-items:center; gap:10px;
+    cursor:pointer; transition:all .2s;
+  }
+  .pay-method:hover, .pay-method.selected { border-color:var(--green); background:rgba(16,185,129,.08); }
+  .pay-method .pm-icon { font-size:16pt; flex-shrink:0; }
+  .pay-method .pm-name { font-size:9.5pt; font-weight:600; color:var(--text); }
+  .pay-method .pm-desc { font-size:7.5pt; color:var(--muted); }
+  .pay-method .pm-check { margin-left:auto; font-size:12pt; opacity:0; transition:opacity .2s; }
+  .pay-method.selected .pm-check { opacity:1; }
+
+  .pay-total {
+    background:rgba(124,58,237,.12); border:1px solid rgba(124,58,237,.3);
+    border-radius:12px; padding:10px 14px;
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:10px;
+  }
+  .pay-total .pt-label { font-size:8.5pt; color:var(--muted); }
+  .pay-total .pt-amount { font-family:'Syne',sans-serif; font-size:14pt; font-weight:800; color:var(--violet-l); }
+
+  .btn-pay {
+    background:linear-gradient(135deg, var(--green), #059669);
+    border:none; border-radius:14px; padding:13px;
+    color:#fff; font-family:'Syne',sans-serif; font-weight:700; font-size:11pt;
+    width:100%; cursor:pointer; text-align:center;
+    box-shadow:0 6px 20px rgba(16,185,129,.35); transition:all .2s;
+  }
+  .btn-pay:hover { transform:translateY(-1px); }
+
+  /* Confirmation */
+  .confirm-screen {
+    display:none; flex-direction:column; align-items:center;
+    padding:20px 16px; text-align:center;
+  }
+  .confirm-screen.visible { display:flex; }
+  .confirm-icon { font-size:48pt; margin-bottom:12px; animation: pop .4s ease; }
+  @keyframes pop { 0% { transform:scale(0); } 80% { transform:scale(1.1); } 100% { transform:scale(1); } }
+  .confirm-title { font-family:'Syne',sans-serif; font-size:14pt; font-weight:800; color:#fff; margin-bottom:4px; }
+  .confirm-sub { font-size:8.5pt; color:var(--muted); margin-bottom:18px; }
+  .numero-badge {
+    background:linear-gradient(135deg, var(--violet), var(--violet-d));
+    border-radius:16px; padding:16px 24px; margin-bottom:16px; width:100%;
+  }
+  .numero-badge .nb-label { font-size:8pt; color:rgba(255,255,255,.7); margin-bottom:4px; }
+  .numero-badge .nb-num { font-family:'Syne',sans-serif; font-size:22pt; font-weight:800; color:#fff; letter-spacing:2px; }
+  .numero-badge .nb-sub { font-size:7.5pt; color:rgba(255,255,255,.6); margin-top:3px; }
+  .share-btns { display:flex; gap:8px; width:100%; margin-bottom:10px; }
+  .share-btn-small {
+    flex:1; background:var(--card); border:1px solid #3d2d6e; border-radius:12px;
+    padding:9px; color:var(--text); font-size:8.5pt; font-weight:600;
+    font-family:'Syne',sans-serif; cursor:pointer; text-align:center;
+    display:flex; align-items:center; justify-content:center; gap:4px;
+    transition:all .2s;
+  }
+  .share-btn-small:hover { border-color:var(--violet); color:var(--violet-l); }
+  .new-pay-btn {
+    background:transparent; border:1px solid #3d2d6e; border-radius:12px;
+    padding:9px; color:var(--muted); font-size:8.5pt;
+    font-family:'DM Sans',sans-serif; cursor:pointer; width:100%; text-align:center;
+    transition:all .2s;
+  }
+  .new-pay-btn:hover { border-color:var(--violet-l); color:var(--violet-l); }
+
+  /* ════════════════════════════
+     ÉCRAN 1 — CONNEXION
+  ════════════════════════════ */
+  #s-login {
+    background: linear-gradient(160deg, #1a0e3a 0%, #0f0a1e 60%);
+  }
+  .login-glow {
+    position: absolute;
+    width: 260px; height: 260px;
+    background: radial-gradient(circle, rgba(124,58,237,.3) 0%, transparent 70%);
+    top: 40px; left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .login-body {
+    padding: 20px 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    z-index: 2;
+  }
+  .app-logo {
+    text-align: center;
+    margin-bottom: 28px;
+    margin-top: 10px;
+  }
+  .app-logo .logo-icon {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, var(--violet), var(--violet-d));
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26pt;
+    margin: 0 auto 12px;
+    box-shadow: 0 8px 24px rgba(124,58,237,.4);
+  }
+  .app-logo h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15pt;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+  .app-logo p {
+    font-size: 8.5pt;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .login-label {
+    font-size: 8pt;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+  }
+  .login-input {
+    background: var(--card);
+    border: 1px solid #3d2d6e;
+    border-radius: 12px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-size: 10pt;
+    width: 100%;
+    margin-bottom: 14px;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .login-input .ph { color: var(--muted); font-size: 9.5pt; }
+  .login-input .ic { font-size: 12pt; }
+  .forgot {
+    text-align: right;
+    font-size: 8.5pt;
+    color: var(--violet-l);
+    margin-top: -8px;
+    margin-bottom: 20px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--violet), var(--violet-d));
+    border: none;
+    border-radius: 14px;
+    padding: 13px;
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 11pt;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(124,58,237,.4);
+    transition: all .2s;
+    letter-spacing: .3px;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(124,58,237,.5); }
+  .login-sep {
+    text-align: center;
+    color: var(--muted);
+    font-size: 8.5pt;
+    margin: 14px 0;
+    position: relative;
+  }
+  .register-link {
+    text-align: center;
+    font-size: 9pt;
+    color: var(--muted);
+  }
+  .register-link span { color: var(--violet-l); font-weight: 600; }
+
+  /* ════════════════════════════
+     ÉCRAN 2 — TABLEAU DE BORD PATIENT
+  ════════════════════════════ */
+  #s-dashboard {
+    background: var(--dark);
+  }
+  .dash-header {
+    background: linear-gradient(135deg, var(--violet-d), var(--violet));
+    padding: 14px 20px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .dash-header::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; left: -10px; right: -10px;
+    height: 40px;
+    background: var(--dark);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  }
+  .dash-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .dash-greet {
+    font-size: 8.5pt;
+    color: rgba(255,255,255,.7);
+    margin-bottom: 2px;
+  }
+  .dash-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    color: #fff;
+  }
+  .dash-notif {
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14pt;
+    position: relative;
+  }
+  .dash-notif-dot {
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 2px solid var(--violet);
+  }
+  .dash-card-info {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+  }
+  .dash-card-info .label { font-size: 7.5pt; color: rgba(255,255,255,.65); }
+  .dash-card-info .val { font-family: 'Syne', sans-serif; font-size: 10pt; font-weight: 700; color: #fff; }
+  .dash-body {
+    padding: 10px 18px 0;
+    flex: 1;
+    overflow: hidden;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .section-title span { font-size: 8pt; color: var(--violet-l); font-weight: 400; font-family: 'DM Sans', sans-serif; }
+  .result-card {
+    background: var(--card);
+    border: 1px solid #3d2d6e;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .result-card:hover { border-color: var(--violet); transform: translateX(2px); }
+  .result-icon {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16pt;
+    flex-shrink: 0;
+  }
+  .result-icon.bio { background: rgba(124,58,237,.2); }
+  .result-icon.radio { background: rgba(16,185,129,.2); }
+  .result-icon.cardio { background: rgba(245,158,11,.2); }
+  .result-info { flex: 1; }
+  .result-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .result-date { font-size: 8pt; color: var(--muted); }
+  .result-badge {
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 7.5pt;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .badge-new { background: rgba(124,58,237,.25); color: var(--violet-l); }
+  .badge-ok { background: rgba(16,185,129,.2); color: var(--green); }
+  .badge-att { background: rgba(245,158,11,.2); color: var(--accent); }
+
+  /* Stats rapides */
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .stat-box {
+    background: var(--card);
+    border: 1px solid #3d2d6e;
+    border-radius: 12px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 16pt;
+    font-weight: 800;
+    color: var(--violet-l);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .stat-lbl { font-size: 7.5pt; color: var(--muted); }
+
+  /* ════════════════════════════
+     ÉCRAN 3 — DÉTAIL RÉSULTAT
+  ════════════════════════════ */
+  #s-result {
+    background: var(--dark);
+  }
+  .result-header {
+    background: linear-gradient(135deg, #2d1260, var(--violet-d));
+    padding: 14px 20px 20px;
+  }
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,.7);
+    font-size: 9pt;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .back-btn:hover { color: #fff; }
+  .result-header-info h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14pt;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .result-header-info p { font-size: 8.5pt; color: rgba(255,255,255,.6); }
+  .result-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .meta-chip {
+    background: rgba(255,255,255,.12);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 8pt;
+    color: rgba(255,255,255,.8);
+  }
+  .result-body {
+    padding: 14px 18px;
+    flex: 1;
+    overflow: hidden;
+  }
+  .param-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    margin-top: 4px;
+  }
+  .param-row {
+    background: var(--card);
+    border: 1px solid #3d2d6e;
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .param-left .p-name { font-size: 9pt; color: var(--text); font-weight: 500; margin-bottom: 2px; }
+  .param-left .p-range { font-size: 7.5pt; color: var(--muted); }
+  .param-right { text-align: right; }
+  .param-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+  }
+  .param-val.normal { color: var(--green); }
+  .param-val.high { color: var(--red); }
+  .param-val.ok { color: var(--violet-l); }
+  .param-unit { font-size: 7.5pt; color: var(--muted); }
+  .interpret-box {
+    background: rgba(124,58,237,.12);
+    border: 1px solid rgba(124,58,237,.3);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 8px;
+  }
+  .interpret-box .i-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--violet-l);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .interpret-box p {
+    font-size: 8.5pt;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .share-btn {
+    margin-top: 10px;
+    background: transparent;
+    border: 1px solid var(--violet);
+    border-radius: 12px;
+    padding: 10px;
+    color: var(--violet-l);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 9.5pt;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all .2s;
+  }
+  .share-btn:hover { background: rgba(124,58,237,.1); }
+
+  /* ════════════════════════════
+     ÉCRAN 4 — INTERFACE LABO
+  ════════════════════════════ */
+  #s-labo {
+    background: var(--dark);
+  }
+  .labo-header {
+    background: linear-gradient(135deg, #1a2a4a, #0e1d35);
+    padding: 14px 20px 20px;
+    border-bottom: 1px solid #2a3a5e;
+  }
+  .labo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(16,185,129,.15);
+    border: 1px solid rgba(16,185,129,.3);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 7.5pt;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .labo-header h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13pt;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+  .labo-header p { font-size: 8pt; color: #7a8fa6; }
+  .labo-body { padding: 14px 18px; flex: 1; overflow: hidden; }
+  .labo-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .labo-stat {
+    background: var(--card);
+    border: 1px solid #3d2d6e;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .labo-stat .ls-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 20pt;
+    font-weight: 800;
+    color: var(--violet-l);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .labo-stat .ls-lbl { font-size: 7.5pt; color: var(--muted); }
+  .patient-row {
+    background: var(--card);
+    border: 1px solid #3d2d6e;
+    border-radius: 12px;
+    padding: 11px 13px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .patient-avatar {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--violet), var(--violet-d));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 11pt;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .patient-info { flex: 1; }
+  .patient-name { font-size: 9.5pt; font-weight: 600; color: var(--text); margin-bottom: 1px; }
+  .patient-exam { font-size: 8pt; color: var(--muted); }
+  .publish-btn {
+    background: var(--green);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: #fff;
+    font-size: 8pt;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    white-space: nowrap;
+  }
+  .published-tag {
+    background: rgba(16,185,129,.15);
+    border: 1px solid rgba(16,185,129,.3);
+    border-radius: 8px;
+    padding: 5px 9px;
+    color: var(--green);
+    font-size: 7.5pt;
+    font-weight: 600;
+  }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: var(--dark2);
+    border-top: 1px solid #2a1f4e;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 8px;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    flex: 1;
+    padding: 6px 4px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .nav-item .ni-icon { font-size: 16pt; }
+  .nav-item .ni-lbl { font-size: 7pt; color: var(--muted); }
+  .nav-item.active .ni-lbl { color: var(--violet-l); }
+  .nav-item.active .ni-icon { filter: drop-shadow(0 0 6px var(--violet)); }
+
+  /* ── BOUTON DÉCONNEXION ── */
+  .logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(239,68,68,.12);
+    border: 1px solid rgba(239,68,68,.3);
+    border-radius: 9px;
+    padding: 5px 10px;
+    color: #EF4444;
+    font-size: 8pt;
+    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    cursor: pointer;
+    transition: all .2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .logout-btn:hover {
+    background: rgba(239,68,68,.22);
+    border-color: rgba(239,68,68,.6);
+  }
+
+  /* ── LÉGENDE DESKTOP ── */
+  .legend {
+    margin-top: 20px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .legend-item {
+    background: #1a0e3a;
+    border: 1px solid #3d2d6e;
+    border-radius: 20px;
+    padding: 5px 13px;
+    font-size: 8.5pt;
+    color: var(--muted);
+  }
+  .legend-item strong { color: var(--violet-l); }
+</style>
+</head>
+<body>
+
+<!-- TITRE -->
+<div class="lab-title">
+  <h1>Hihinemma Result</h1>
+  <p>Maquette interactive — navigue entre les écrans</p>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav-screens" id="navScreens">
+  <button class="nav-btn active" onclick="showScreen('s-login', this)">🔐 Connexion</button>
+  <!-- Boutons patient -->
+  <button class="nav-btn nav-patient" style="display:none" onclick="showScreen('s-dashboard', this)">🏠 Dashboard</button>
+  <button class="nav-btn nav-patient" style="display:none" onclick="showScreen('s-result', this)">🔬 Résultats</button>
+  <button class="nav-btn nav-patient" style="display:none" onclick="showScreen('s-chat', this)">🤖 Chatbot</button>
+  <button class="nav-btn nav-patient" style="display:none" onclick="showScreen('s-pay', this)">💳 Paiement</button>
+  <button class="nav-btn nav-patient" style="display:none" onclick="showScreen('s-rdv', this)">📅 RDV</button>
+  <!-- Boutons médecin -->
+  <button class="nav-btn nav-medecin" style="display:none" onclick="showScreen('s-medecin', this)">👨‍⚕️ Planning</button>
+  <!-- Boutons laborantin -->
+  <button class="nav-btn nav-labo" style="display:none" onclick="showScreen('s-labo', this)">🏥 Labo</button>
+</div>
+
+<!-- TÉLÉPHONE -->
+<div class="phone-wrap">
+  <div class="phone">
+
+    <!-- Notch -->
+    <div class="notch">
+      <div class="notch-cam"></div>
+      <div class="notch-mic"></div>
+      <div class="notch-cam"></div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>📶 🔋</span>
+    </div>
+
+    <!-- ══ ÉCRAN 1 : CONNEXION ══ -->
+    <div class="screen active" id="s-login">
+      <div class="login-glow"></div>
+      <div class="login-body">
+        <div class="app-logo">
+          <div class="logo-icon">🏥</div>
+          <h2>Hihinemma Result</h2>
+          <p>Vos résultats médicaux partout</p>
+        </div>
+
+        <div class="login-label">Adresse email</div>
+        <div class="login-input">
+          <span class="ic">📧</span>
+          <input id="loginEmail" type="text" placeholder="votre@email.com" style="background:none;border:none;outline:none;color:var(--text);font-size:9.5pt;font-family:'DM Sans',sans-serif;width:100%;"/>
+        </div>
+
+        <div class="login-label">Mot de passe</div>
+        <div class="login-input">
+          <span class="ic">🔒</span>
+          <span class="ph">••••••••</span>
+        </div>
+
+        <div style="font-size:7.5pt;color:var(--muted);margin-bottom:14px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.2);border-radius:8px;padding:7px 10px;">
+          💡 Démo : tapez <strong style="color:var(--violet-l)">patient</strong> · <strong style="color:var(--green)">medecin</strong> · <strong style="color:var(--accent)">labo</strong>
+        </div>
+
+        <button class="btn-primary" onclick="seConnecter()">Se connecter →</button>
+
+        <div class="login-sep">— ou —</div>
+        <div class="register-link">Pas encore de compte ? <span>S'inscrire</span></div>
+      </div>
+    </div>
+
+    <!-- ══ ÉCRAN 2 : DASHBOARD ══ -->
+    <div class="screen" id="s-dashboard">
+      <div class="dash-header">
+        <div class="dash-top">
+          <div>
+            <div class="dash-greet">Bonjour 👋</div>
+            <div class="dash-name">Koama Ali</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="dash-notif">🔔<div class="dash-notif-dot"></div></div>
+            <button class="logout-btn" onclick="seDeconnecter()">🚪 Quitter</button>
+          </div>
+        </div>
+        <div class="dash-card-info">
+          <div><div class="label">N° patient</div><div class="val">BF-2025-04712</div></div>
+          <div><div class="label">Clinique</div><div class="val">Polyclinique A</div></div>
+        </div>
+      </div>
+
+      <div class="dash-body">
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-num">5</div><div class="stat-lbl">Examens</div></div>
+          <div class="stat-box"><div class="stat-num">2</div><div class="stat-lbl">Nouveaux</div></div>
+          <div class="stat-box"><div class="stat-num">3</div><div class="stat-lbl">Labos</div></div>
+        </div>
+
+        <div class="section-title">Résultats récents <span>Voir tout</span></div>
+
+        <!-- Bouton Prendre RDV -->
+        <div onclick="showScreen('s-rdv', document.querySelector('.nav-btn:nth-child(2)'))" style="background:linear-gradient(135deg,var(--violet),var(--violet-d));border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:12px;cursor:pointer;box-shadow:0 6px 20px rgba(124,58,237,.3);">
+          <span style="font-size:18pt;">📅</span>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;color:#fff;font-size:10pt;">Prendre un rendez-vous</div>
+            <div style="font-size:7.5pt;color:rgba(255,255,255,.7);">Généraliste ou spécialiste</div>
+          </div>
+          <span style="margin-left:auto;color:rgba(255,255,255,.7);font-size:14pt;">→</span>
+        </div>
+
+        <div class="result-card" onclick="showScreen('s-result', document.querySelector('.nav-btn:nth-child(3)'))">
+          <div class="result-icon bio">🧪</div>
+          <div class="result-info">
+            <div class="result-name">Bilan sanguin complet</div>
+            <div class="result-date">07 mai 2025 · Polyclinique A</div>
+          </div>
+          <div class="result-badge badge-new">NOUVEAU</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-icon radio">🩻</div>
+          <div class="result-info">
+            <div class="result-name">Radiographie thorax</div>
+            <div class="result-date">02 mai 2025 · Clinique Sauver</div>
+          </div>
+          <div class="result-badge badge-ok">✓ Vu</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-icon cardio">❤️</div>
+          <div class="result-info">
+            <div class="result-name">Échocardiographie</div>
+            <div class="result-date">28 avr 2025 · CHU Yalgado</div>
+          </div>
+          <div class="result-badge badge-att">En attente</div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item active"><div class="ni-icon">🏠</div><div class="ni-lbl">Accueil</div></div>
+        <div class="nav-item"><div class="ni-icon">📋</div><div class="ni-lbl">Résultats</div></div>
+        <div class="nav-item"><div class="ni-icon">📁</div><div class="ni-lbl">Historique</div></div>
+        <div class="nav-item"><div class="ni-icon">👤</div><div class="ni-lbl">Profil</div></div>
+      </div>
+    </div>
+
+    <!-- ══ ÉCRAN 3 : DÉTAIL RÉSULTAT ══ -->
+    <div class="screen" id="s-result">
+      <div class="result-header">
+        <div class="back-btn" onclick="showScreen('s-dashboard', document.querySelector('.nav-btn:nth-child(2)'))">
+          ← Retour
+        </div>
+        <div class="result-header-info">
+          <h3>Bilan sanguin</h3>
+          <p>Polyclinique A · Dr. Ouédraogo</p>
+        </div>
+        <div class="result-meta">
+          <div class="meta-chip">📅 07 mai 2025</div>
+          <div class="meta-chip">🆕 Nouveau</div>
+        </div>
+      </div>
+
+      <div class="result-body">
+        <div class="param-title">Paramètres analysés</div>
+
+        <div class="param-row">
+          <div class="param-left">
+            <div class="p-name">Glycémie</div>
+            <div class="p-range">Normal : 0.7 – 1.1 g/L</div>
+          </div>
+          <div class="param-right">
+            <div class="param-val high">1.38</div>
+            <div class="param-unit">g/L ↑</div>
+          </div>
+        </div>
+
+        <div class="param-row">
+          <div class="param-left">
+            <div class="p-name">Hémoglobine</div>
+            <div class="p-range">Normal : 12 – 17 g/dL</div>
+          </div>
+          <div class="param-right">
+            <div class="param-val normal">14.2</div>
+            <div class="param-unit">g/dL ✓</div>
+          </div>
+        </div>
+
+        <div class="param-row">
+          <div class="param-left">
+            <div class="p-name">Créatinine</div>
+            <div class="p-range">Normal : 6 – 12 mg/L</div>
+          </div>
+          <div class="param-right">
+            <div class="param-val ok">8.4</div>
+            <div class="param-unit">mg/L ✓</div>
+          </div>
+        </div>
+
+        <div class="interpret-box">
+          <div class="i-title">💡 En résumé</div>
+          <p>Votre glycémie est légèrement élevée. Il est recommandé de consulter votre médecin pour un suivi. Les autres paramètres sont dans la norme.</p>
+        </div>
+
+        <button class="share-btn" onclick="ouvrirPartage()">📤 Partager avec mon médecin</button>
+
+        <!-- Modal partage -->
+        <div id="partageModal" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:center;justify-content:center;padding:20px;">
+          <div style="background:var(--dark2);border:1px solid #3d2d6e;border-radius:16px;padding:18px;width:100%;">
+            <div style="font-family:'Syne',sans-serif;font-size:11pt;font-weight:700;color:var(--text);margin-bottom:4px;">📤 Partager le résultat</div>
+            <div style="font-size:8pt;color:var(--muted);margin-bottom:14px;">Choisissez le médecin destinataire</div>
+
+            <div id="medChoix1" onclick="selectMedPartage(this, 'Dr. Ouédraogo S.')" style="background:var(--card);border:2px solid var(--violet);border-radius:12px;padding:10px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:8px;">
+              <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--violet),var(--violet-d));display:flex;align-items:center;justify-content:center;font-size:12pt;flex-shrink:0;">👨‍⚕️</div>
+              <div><div style="font-size:9.5pt;font-weight:600;color:var(--text);">Dr. Ouédraogo S.</div><div style="font-size:7.5pt;color:var(--muted);">Médecin traitant · Polyclinique A</div></div>
+              <span style="margin-left:auto;color:var(--violet-l);">✅</span>
+            </div>
+
+            <div id="medChoix2" onclick="selectMedPartage(this, 'Dr. Sawadogo M.')" style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:10px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:14px;">
+              <div style="width:32px;height:32px;border-radius:10px;background:var(--card);border:1px solid #3d2d6e;display:flex;align-items:center;justify-content:center;font-size:12pt;flex-shrink:0;">👩‍⚕️</div>
+              <div><div style="font-size:9.5pt;font-weight:600;color:var(--text);">Dr. Sawadogo M.</div><div style="font-size:7.5pt;color:var(--muted);">Cardiologue · Clinique Sauver</div></div>
+              <span style="margin-left:auto;color:var(--muted);opacity:0;">✅</span>
+            </div>
+
+            <div style="display:flex;gap:8px;">
+              <button onclick="fermerPartage()" style="flex:1;background:transparent;border:1px solid #3d2d6e;border-radius:10px;padding:9px;color:var(--muted);font-size:8.5pt;cursor:pointer;">Annuler</button>
+              <button onclick="confirmerPartage()" style="flex:2;background:linear-gradient(135deg,var(--violet),var(--violet-d));border:none;border-radius:10px;padding:9px;color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:9pt;cursor:pointer;">Envoyer au médecin</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirmation envoi -->
+        <div id="partageConfirm" style="display:none;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);border-radius:12px;padding:10px 13px;margin-top:8px;font-size:8.5pt;color:var(--green);text-align:center;">
+          ✅ Résultat partagé avec <span id="nomMedPartage">Dr. Ouédraogo</span> — il recevra une notification.
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item"><div class="ni-icon">🏠</div><div class="ni-lbl">Accueil</div></div>
+        <div class="nav-item active"><div class="ni-icon">📋</div><div class="ni-lbl">Résultats</div></div>
+        <div class="nav-item"><div class="ni-icon">📁</div><div class="ni-lbl">Historique</div></div>
+        <div class="nav-item"><div class="ni-icon">👤</div><div class="ni-lbl">Profil</div></div>
+      </div>
+    </div>
+
+    <!-- ══ ÉCRAN 4 : INTERFACE LABO ══ -->
+    <div class="screen" id="s-labo">
+      <div class="labo-header">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <div class="labo-badge">🟢 Connecté</div>
+          <button class="logout-btn" onclick="seDeconnecter()">🚪 Quitter</button>
+        </div>
+        <h3>Polyclinique A</h3>
+        <p>Tableau de bord laboratoire</p>
+      </div>
+
+      <div class="labo-body">
+        <div class="labo-stats">
+          <div class="labo-stat"><div class="ls-val">12</div><div class="ls-lbl">Examens aujourd'hui</div></div>
+          <div class="labo-stat"><div class="ls-val">4</div><div class="ls-lbl">À publier</div></div>
+        </div>
+
+        <div class="section-title">Patients en attente</div>
+
+        <div class="patient-row">
+          <div class="patient-avatar">KA</div>
+          <div class="patient-info">
+            <div class="patient-name">Koama Ali</div>
+            <div class="patient-exam">Bilan sanguin</div>
+          </div>
+          <button class="publish-btn">Publier</button>
+        </div>
+
+        <div class="patient-row">
+          <div class="patient-avatar">SO</div>
+          <div class="patient-info">
+            <div class="patient-name">Sawadogo Odile</div>
+            <div class="patient-exam">NFS complète</div>
+          </div>
+          <button class="publish-btn">Publier</button>
+        </div>
+
+        <div class="patient-row">
+          <div class="patient-avatar">TI</div>
+          <div class="patient-info">
+            <div class="patient-name">Traoré Issa</div>
+            <div class="patient-exam">Bilan hépatique</div>
+          </div>
+          <div class="published-tag">✓ Publié</div>
+        </div>
+
+        <div class="patient-row">
+          <div class="patient-avatar">ZF</div>
+          <div class="patient-info">
+            <div class="patient-name">Zongo Fatima</div>
+            <div class="patient-exam">Glycémie à jeun</div>
+          </div>
+          <div class="published-tag">✓ Publié</div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item active"><div class="ni-icon">📊</div><div class="ni-lbl">Dashboard</div></div>
+        <div class="nav-item"><div class="ni-icon">➕</div><div class="ni-lbl">Ajouter</div></div>
+        <div class="nav-item"><div class="ni-icon">📋</div><div class="ni-lbl">Patients</div></div>
+        <div class="nav-item"><div class="ni-icon">⚙️</div><div class="ni-lbl">Réglages</div></div>
+      </div>
+    </div>
+
+    <!-- ══ ÉCRAN 5 : CHATBOT ══ -->
+    <div class="screen" id="s-chat" style="padding-top:0;">
+      <div class="chat-header" style="margin-top:52px;">
+        <div class="bot-avatar">🤖</div>
+        <div>
+          <div class="bot-name">Hinema Assistant</div>
+          <div class="bot-status"><div class="status-dot"></div> En ligne · IA médicale</div>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMsgs">
+        <div class="cmsg bot">
+          <div class="cmsg-avatar">🤖</div>
+          <div>
+            <div class="cmsg-bubble">Bonjour ! 👋 Je suis votre assistant Hihinemma.<br><br>Je parle :<br>🇧🇫 Français · Mooré · Dioula · Peulh<br>🌍 English<br><br>Parlez ou écrivez dans votre langue !</div>
+            <div class="cmsg-time">maintenant</div>
+          </div>
+        </div>
+        <div class="typing-wrap" id="typingWrap">
+          <div class="cmsg-avatar">🤖</div>
+          <div class="typing-dots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>
+        </div>
+      </div>
+
+      <div class="quick-sugg">
+        <button class="qbtn" onclick="sendQuick('C\'est quoi la glycémie ?')">🩸 Glycémie</button>
+        <button class="qbtn" onclick="sendQuick('Mon résultat est anormal, que faire ?')">⚠️ Anormal</button>
+        <button class="qbtn" onclick="sendQuick('Comment partager mes résultats ?')">👨‍⚕️ Partager</button>
+        <button class="qbtn" onclick="sendQuick('Comment utiliser l\'appli ?')">📱 Aide</button>
+      </div>
+
+      <div class="chat-input-area">
+        <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="Parler">🎤</button>
+        <input class="chat-input" id="chatInput" type="text" placeholder="Parlez ou écrivez..." onkeydown="if(event.key==='Enter') sendChat()"/>
+        <button class="send-btn" id="chatSendBtn" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+
+    <!-- ══ ÉCRAN 6 : PAIEMENT ══ -->
+    <div class="screen" id="s-pay" style="padding-top:0; overflow-y:auto;">
+
+      <!-- Vue formulaire -->
+      <div id="payForm">
+        <div class="pay-header">
+          <h3>💳 Payer en ligne</h3>
+          <p>Plus besoin de faire la queue à la caisse</p>
+        </div>
+
+        <div class="pay-body">
+
+          <!-- Étape 1 : Type de paiement -->
+          <div class="pay-step">
+            <div class="step-label"><div class="step-num">1</div> Type de paiement</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+              <div id="typeConsultation" onclick="selectTypePayment('consultation')" style="background:linear-gradient(135deg,var(--violet),var(--violet-d));border:2px solid var(--violet);border-radius:12px;padding:12px;text-align:center;cursor:pointer;box-shadow:0 4px 14px rgba(124,58,237,.3);">
+                <div style="font-size:18pt;margin-bottom:4px;">🩺</div>
+                <div style="font-size:9pt;font-weight:700;color:#fff;">Consultation</div>
+                <div style="font-size:7.5pt;color:rgba(255,255,255,.7);">Prendre RDV médecin</div>
+              </div>
+              <div id="typeExamen" onclick="selectTypePayment('examen')" style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:12px;text-align:center;cursor:pointer;">
+                <div style="font-size:18pt;margin-bottom:4px;">🧪</div>
+                <div style="font-size:9pt;font-weight:700;color:var(--text);">Examen</div>
+                <div style="font-size:7.5pt;color:var(--muted);">Bilan, Radio, Echo...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Étape 2 : Service selon le type -->
+          <div class="pay-step">
+            <div class="step-label"><div class="step-num">2</div> Choisir le service</div>
+
+            <!-- Services consultation -->
+            <div id="servicesConsultation" class="service-grid">
+              <div class="service-card selected" onclick="selectService(this, '🩺 Généraliste', 5000)">
+                <div class="sc-icon">👨‍⚕️</div>
+                <div class="sc-name">Généraliste</div>
+                <div class="sc-price">5 000 FCFA</div>
+              </div>
+              <div class="service-card" onclick="selectService(this, '🔬 Cardiologue', 15000)">
+                <div class="sc-icon">❤️</div>
+                <div class="sc-name">Cardiologue</div>
+                <div class="sc-price">15 000 FCFA</div>
+              </div>
+              <div class="service-card" onclick="selectService(this, '👁️ Ophtalmologue', 12000)">
+                <div class="sc-icon">👁️</div>
+                <div class="sc-name">Ophtalmo</div>
+                <div class="sc-price">12 000 FCFA</div>
+              </div>
+              <div class="service-card" onclick="selectService(this, '🦷 Dentiste', 10000)">
+                <div class="sc-icon">🦷</div>
+                <div class="sc-name">Dentiste</div>
+                <div class="sc-price">10 000 FCFA</div>
+              </div>
+            </div>
+
+            <!-- Services examen (caché par défaut) -->
+            <div id="servicesExamen" class="service-grid" style="display:none;">
+              <div class="service-card selected" onclick="selectService(this, '🧪 Bilan sanguin', 8000)">
+                <div class="sc-icon">🧪</div>
+                <div class="sc-name">Bilan sanguin</div>
+                <div class="sc-price">8 000 FCFA</div>
+              </div>
+              <div class="service-card" onclick="selectService(this, '🩻 Radiographie', 12000)">
+                <div class="sc-icon">🩻</div>
+                <div class="sc-name">Radiographie</div>
+                <div class="sc-price">12 000 FCFA</div>
+              </div>
+              <div class="service-card" onclick="selectService(this, '🫀 Échographie', 20000)">
+                <div class="sc-icon">🫀</div>
+                <div class="sc-name">Échographie</div>
+                <div class="sc-price">20 000 FCFA</div>
+              </div>
+              <div class="service-card" onclick="selectService(this, '❤️ Échocardiographie', 25000)">
+                <div class="sc-icon">❤️</div>
+                <div class="sc-name">Échocardio</div>
+                <div class="sc-price">25 000 FCFA</div>
+              </div>
+            </div>
+
+            <!-- Info examen -->
+            <div id="infoExamen" style="display:none;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:10px;padding:9px 12px;margin-top:8px;font-size:8pt;color:var(--green);">
+              📋 Après paiement, vous recevrez un numéro de dépôt. Vos résultats seront disponibles dans l'appli dès publication par le laboratoire.
+            </div>
+          </div>
+
+          <!-- Étape 3 : Moyen de paiement -->
+          <div class="pay-step">
+            <div class="step-label"><div class="step-num">3</div> Moyen de paiement</div>
+            <div class="pay-methods">
+              <div class="pay-method selected" onclick="selectMethod(this)">
+                <div class="pm-icon">🟠</div>
+                <div><div class="pm-name">Orange Money</div><div class="pm-desc">Paiement instantané</div></div>
+                <div class="pm-check">✅</div>
+              </div>
+              <div class="pay-method" onclick="selectMethod(this)">
+                <div class="pm-icon">🔵</div>
+                <div><div class="pm-name">Moov Money</div><div class="pm-desc">Paiement instantané</div></div>
+                <div class="pm-check">✅</div>
+              </div>
+              <div class="pay-method" onclick="selectMethod(this)">
+                <div class="pm-icon">🟣</div>
+                <div><div class="pm-name">Coris Money</div><div class="pm-desc">Paiement instantané</div></div>
+                <div class="pm-check">✅</div>
+              </div>
+              <div class="pay-method" onclick="selectMethod(this)">
+                <div class="pm-icon">🌊</div>
+                <div><div class="pm-name">Wave</div><div class="pm-desc">Paiement instantané</div></div>
+                <div class="pm-check">✅</div>
+              </div>
+              <div class="pay-method" onclick="selectMethod(this)">
+                <div class="pm-icon">💳</div>
+                <div><div class="pm-name">Carte bancaire</div><div class="pm-desc">Visa / Mastercard</div></div>
+                <div class="pm-check">✅</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Étape 4 : Assurance -->
+          <div class="pay-step">
+            <div class="step-label"><div class="step-num">4</div> Vous êtes assuré ?</div>
+            <div class="pay-methods">
+              <div class="pay-method selected" onclick="selectAssurance(this, 0)">
+                <div class="pm-icon">🚫</div>
+                <div><div class="pm-name">Sans assurance</div><div class="pm-desc">Je paye le plein tarif</div></div>
+                <div class="pm-check">✅</div>
+              </div>
+              <div class="pay-method" onclick="selectAssurance(this, 80)">
+                <div class="pm-icon">🏛️</div>
+                <div><div class="pm-name">CNSS</div><div class="pm-desc">Prise en charge 80%</div></div>
+                <div class="pm-check">✅</div>
+              </div>
+              <div class="pay-method" onclick="selectAssurance(this, 80)">
+                <div class="pm-icon">🏛️</div>
+                <div><div class="pm-name">CARFO</div><div class="pm-desc">Prise en charge 80%</div></div>
+                <div class="pm-check">✅</div>
+              </div>
+              <div class="pay-method" onclick="selectAssurance(this, 70)">
+                <div class="pm-icon">🛡️</div>
+                <div><div class="pm-name">Allianz / NSIA / Sanlam</div><div class="pm-desc">Prise en charge jusqu'à 70%</div></div>
+                <div class="pm-check">✅</div>
+              </div>
+            </div>
+
+            <!-- Champ numéro d'assuré — apparaît seulement si assurance choisie -->
+            <div id="assurCodeBox" style="display:none; margin-top:10px;">
+              <div style="font-size:8pt; color:var(--muted); margin-bottom:5px; font-weight:500; text-transform:uppercase; letter-spacing:.5px;">Numéro d'assuré</div>
+              <div style="display:flex; gap:7px; align-items:center;">
+                <input
+                  id="assurCode"
+                  type="text"
+                  placeholder="Ex: CNSS-2025-04712"
+                  style="flex:1; background:var(--card); border:1px solid var(--violet); border-radius:10px; padding:9px 12px; color:var(--text); font-size:9pt; font-family:'DM Sans',sans-serif; outline:none;"
+                />
+                <button onclick="verifierCode()" style="background:var(--violet); border:none; border-radius:10px; padding:9px 12px; color:#fff; font-size:8.5pt; font-family:'Syne',sans-serif; font-weight:700; cursor:pointer; white-space:nowrap;">Vérifier</button>
+              </div>
+              <div id="codeStatus" style="margin-top:6px; font-size:8pt; display:none;"></div>
+            </div>
+          </div>
+
+          <!-- Récap ticket modérateur -->
+          <div class="pay-total" id="assurInfo" style="display:none; flex-direction:column; gap:6px; align-items:stretch;">
+            <div style="display:flex; justify-content:space-between;">
+              <span class="pt-label">Pris en charge assurance</span>
+              <span style="color:var(--green); font-weight:700; font-size:9pt;" id="assurPart">-</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="pt-label">Votre ticket modérateur</span>
+              <span class="pt-amount" id="ticketMod">-</span>
+            </div>
+          </div>
+
+          <!-- Total sans assurance -->
+          <div class="pay-total" id="totalNormal">
+            <div class="pt-label">Total à payer</div>
+            <div class="pt-amount" id="payTotal">5 000 FCFA</div>
+          </div>
+
+          <button class="btn-pay" onclick="confirmerPaiement()">✅ Confirmer le paiement</button>
+        </div>
+      </div>
+
+      <!-- Vue confirmation -->
+      <div class="confirm-screen" id="payConfirm">
+        <div class="confirm-icon">🎉</div>
+        <div class="confirm-title">Paiement réussi !</div>
+        <div class="confirm-sub">Votre numéro de passage a été généré</div>
+
+        <div class="numero-badge">
+          <div class="nb-label">Votre numéro de passage</div>
+          <div class="nb-num" id="numPassage">CON-0847</div>
+          <div class="nb-sub">Polyclinique A · Aujourd'hui</div>
+        </div>
+
+        <div class="share-btns">
+          <button class="share-btn-small">📱 WhatsApp</button>
+          <button class="share-btn-small">💬 SMS</button>
+          <button class="share-btn-small">📋 Copier</button>
+        </div>
+
+        <button class="new-pay-btn" onclick="nouveauPaiement()">← Nouveau paiement</button>
+      </div>
+
+      <!-- Bottom nav -->
+      <div class="bottom-nav" style="position:relative; margin-top:auto;">
+        <div class="nav-item"><div class="ni-icon">🏠</div><div class="ni-lbl">Accueil</div></div>
+        <div class="nav-item active"><div class="ni-icon">💳</div><div class="ni-lbl">Paiement</div></div>
+        <div class="nav-item"><div class="ni-icon">📋</div><div class="ni-lbl">Résultats</div></div>
+        <div class="nav-item"><div class="ni-icon">👤</div><div class="ni-lbl">Profil</div></div>
+      </div>
+    </div>
+
+    <!-- ══ ÉCRAN RDV : PRISE DE RENDEZ-VOUS ══ -->
+    <div class="screen" id="s-rdv" style="padding-top:0;overflow-y:auto;background:var(--dark);">
+      <div style="background:linear-gradient(135deg,#1a2a3a,#0e1d2e);padding:14px 20px 18px;margin-top:52px;">
+        <div style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.7);font-size:9pt;margin-bottom:10px;cursor:pointer;" onclick="showScreen('s-dashboard',document.querySelector('.nav-btn:nth-child(2)'))">← Retour</div>
+        <div style="font-family:'Syne',sans-serif;font-size:13pt;font-weight:800;color:#fff;margin-bottom:2px;">📅 Prendre RDV</div>
+        <div style="font-size:8pt;color:#7a8fa6;">Choisissez votre type de consultation</div>
+      </div>
+
+      <div style="padding:14px 16px;">
+
+        <!-- Étape 1 : Type médecin -->
+        <div style="font-family:'Syne',sans-serif;font-size:9pt;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--violet);color:#fff;font-size:8pt;font-weight:700;display:flex;align-items:center;justify-content:center;">1</div> Type de médecin
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+          <div onclick="selectRdvType(this)" style="background:var(--card);border:2px solid var(--violet);border-radius:12px;padding:12px;text-align:center;cursor:pointer;">
+            <div style="font-size:20pt;margin-bottom:4px;">👨‍⚕️</div>
+            <div style="font-size:9pt;font-weight:700;color:var(--text);">Généraliste</div>
+            <div style="font-size:7.5pt;color:var(--violet-l);">Consultation générale</div>
+          </div>
+          <div onclick="selectRdvType(this)" style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:12px;text-align:center;cursor:pointer;">
+            <div style="font-size:20pt;margin-bottom:4px;">🔬</div>
+            <div style="font-size:9pt;font-weight:700;color:var(--text);">Spécialiste</div>
+            <div style="font-size:7.5pt;color:var(--muted);">Cardio, Ophtalmo...</div>
+          </div>
+        </div>
+
+        <!-- Étape 2 : Clinique -->
+        <div style="font-family:'Syne',sans-serif;font-size:9pt;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--violet);color:#fff;font-size:8pt;font-weight:700;display:flex;align-items:center;justify-content:center;">2</div> Choisir la clinique
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;">
+          <div onclick="selectRdvClinic(this)" style="background:var(--card);border:2px solid var(--violet);border-radius:12px;padding:10px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;">
+            <span style="font-size:16pt;">🏥</span>
+            <div><div style="font-size:9.5pt;font-weight:600;color:var(--text);">Polyclinique A</div><div style="font-size:7.5pt;color:var(--muted);">Ouaga 2000 · Ouvert</div></div>
+            <span style="margin-left:auto;color:var(--green);font-size:10pt;">✅</span>
+          </div>
+          <div onclick="selectRdvClinic(this)" style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:10px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;">
+            <span style="font-size:16pt;">🏥</span>
+            <div><div style="font-size:9.5pt;font-weight:600;color:var(--text);">Clinique Sauver</div><div style="font-size:7.5pt;color:var(--muted);">Paspanga · Ouvert</div></div>
+          </div>
+          <div onclick="selectRdvClinic(this)" style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:10px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;">
+            <span style="font-size:16pt;">🏥</span>
+            <div><div style="font-size:9.5pt;font-weight:600;color:var(--text);">Clinique Schiphra</div><div style="font-size:7.5pt;color:var(--muted);">Tampouy · Ouvert</div></div>
+          </div>
+        </div>
+
+        <!-- Étape 3 : Créneau -->
+        <div style="font-family:'Syne',sans-serif;font-size:9pt;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--violet);color:#fff;font-size:8pt;font-weight:700;display:flex;align-items:center;justify-content:center;">3</div> Choisir l'heure
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:16px;" id="creneauxGrid">
+        </div>
+
+        <button class="btn-primary" onclick="confirmerRdv()">✅ Confirmer le rendez-vous →</button>
+      </div>
+    </div>
+
+    <!-- ══ ÉCRAN CONFIRMATION RDV ══ -->
+    <div class="screen" id="s-rdv-confirm" style="padding-top:0;background:var(--dark);">
+      <div style="background:linear-gradient(135deg,var(--violet-d),var(--violet));padding:14px 20px 20px;margin-top:52px;">
+        <div style="font-family:'Syne',sans-serif;font-size:13pt;font-weight:800;color:#fff;margin-bottom:2px;">✅ Rendez-vous confirmé !</div>
+        <div style="font-size:8pt;color:rgba(255,255,255,.7);">Votre réservation est enregistrée</div>
+      </div>
+      <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+
+        <!-- Numéro de passage -->
+        <div style="background:linear-gradient(135deg,var(--violet),var(--violet-d));border-radius:14px;padding:16px;text-align:center;">
+          <div style="font-size:8pt;color:rgba(255,255,255,.7);margin-bottom:4px;">Votre numéro de passage</div>
+          <div id="rdvNumPassage" style="font-family:'Syne',sans-serif;font-size:24pt;font-weight:800;color:#fff;letter-spacing:2px;">RDV-0000</div>
+          <div style="font-size:7.5pt;color:rgba(255,255,255,.6);margin-top:3px;">Présentez ce numéro à l'accueil</div>
+        </div>
+
+        <!-- Détails RDV -->
+        <div style="background:var(--card);border:1px solid #3d2d6e;border-radius:14px;padding:14px;">
+          <div style="font-family:'Syne',sans-serif;font-size:10pt;font-weight:700;color:var(--text);margin-bottom:10px;">Détails du rendez-vous</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:8.5pt;color:var(--muted);">👨‍⚕️ Médecin</span><span style="font-size:8.5pt;color:var(--text);font-weight:600;" id="rdvMedecin">Dr. Ouédraogo</span></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:8.5pt;color:var(--muted);">🏥 Clinique</span><span style="font-size:8.5pt;color:var(--text);font-weight:600;" id="rdvClinique">Polyclinique A</span></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:8.5pt;color:var(--muted);">📅 Date</span><span style="font-size:8.5pt;color:var(--text);font-weight:600;" id="rdvDate">Aujourd'hui</span></div>
+            <div style="display:flex;justify-content:space-between;"><span style="font-size:8.5pt;color:var(--muted);">⏰ Heure</span><span style="font-size:8.5pt;color:var(--violet-l);font-weight:700;" id="rdvHeure">08h00</span></div>
+          </div>
+        </div>
+
+        <!-- Alerte créneau -->
+        <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:12px;padding:10px 13px;font-size:8pt;color:var(--accent);">
+          ⚠️ Ce créneau est maintenant réservé. Si vous ne vous présentez pas, il sera libéré après 15 minutes.
+        </div>
+
+        <!-- Boutons partage -->
+        <div style="display:flex;gap:8px;">
+          <button style="flex:1;background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:9px;color:var(--text);font-size:8pt;font-weight:600;font-family:'Syne',sans-serif;cursor:pointer;text-align:center;">📱 WhatsApp</button>
+          <button style="flex:1;background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:9px;color:var(--text);font-size:8pt;font-weight:600;font-family:'Syne',sans-serif;cursor:pointer;text-align:center;">💬 SMS</button>
+        </div>
+
+        <button onclick="showScreen('s-dashboard', document.querySelector('.nav-patient'))" style="background:transparent;border:1px solid #3d2d6e;border-radius:12px;padding:10px;color:var(--muted);font-size:8.5pt;font-family:'DM Sans',sans-serif;cursor:pointer;text-align:center;">← Retour à l'accueil</button>
+      </div>
+    </div>
+
+    <!-- ══ ÉCRAN MÉDECIN ══ -->
+    <div class="screen" id="s-medecin" style="padding-top:0;background:var(--dark);">
+      <div style="background:linear-gradient(135deg,#0e2a1a,#1a3a2a);padding:14px 20px 20px;margin-top:52px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div>
+            <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);border-radius:20px;padding:3px 10px;font-size:7.5pt;color:var(--green);margin-bottom:8px;">🟢 Espace Médecin</div>
+            <div style="font-family:'Syne',sans-serif;font-size:13pt;font-weight:800;color:#fff;margin-bottom:2px;">Dr. Ouédraogo S.</div>
+            <div style="font-size:8pt;color:#7a9a7a;">Médecin généraliste · Polyclinique A</div>
+          </div>
+          <button class="logout-btn" onclick="seDeconnecter()" style="margin-top:4px;">🚪 Quitter</button>
+        </div>
+      </div>
+
+      <div style="padding:14px 18px;flex:1;overflow:hidden;">
+
+        <!-- Stats jour -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+          <div style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:10px 8px;text-align:center;">
+            <div style="font-family:'Syne',sans-serif;font-size:18pt;font-weight:800;color:var(--green);line-height:1;margin-bottom:2px;">8</div>
+            <div style="font-size:7.5pt;color:var(--muted);">RDV aujourd'hui</div>
+          </div>
+          <div style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:10px 8px;text-align:center;">
+            <div style="font-family:'Syne',sans-serif;font-size:18pt;font-weight:800;color:var(--accent);line-height:1;margin-bottom:2px;">3</div>
+            <div style="font-size:7.5pt;color:var(--muted);">En attente</div>
+          </div>
+          <div style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:10px 8px;text-align:center;">
+            <div style="font-family:'Syne',sans-serif;font-size:18pt;font-weight:800;color:var(--violet-l);line-height:1;margin-bottom:2px;">5</div>
+            <div style="font-size:7.5pt;color:var(--muted);">Vus</div>
+          </div>
+        </div>
+
+        <div style="font-family:'Syne',sans-serif;font-size:10pt;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;">
+          Planning du jour
+          <!-- Notification badge -->
+          <div id="notifBadge" style="display:none;background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.4);border-radius:20px;padding:3px 10px;font-size:7.5pt;color:var(--violet-l);cursor:pointer;" onclick="afficherNotif()">
+            🔔 1 nouveau résultat partagé
+          </div>
+        </div>
+
+        <!-- Notification résultat partagé -->
+        <div id="notifResultat" style="display:none;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:12px 13px;margin-bottom:12px;">
+          <div style="font-size:8.5pt;font-weight:700;color:var(--violet-l);margin-bottom:4px;">📋 Résultat partagé</div>
+          <div style="font-size:8pt;color:var(--text);margin-bottom:2px;"><strong>Koama Ali</strong> a partagé son <strong>Bilan sanguin</strong> avec vous.</div>
+          <div style="font-size:7.5pt;color:var(--muted);">Glycémie légèrement élevée — il y a quelques instants</div>
+        </div>
+
+        <!-- Patients du jour -->
+        <div style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">
+          <div style="background:rgba(16,185,129,.2);border-radius:10px;padding:6px 10px;font-size:8pt;font-weight:700;color:var(--green);flex-shrink:0;">08h00</div>
+          <div style="flex:1;"><div style="font-size:9.5pt;font-weight:600;color:var(--text);">Koama Ali</div><div style="font-size:7.5pt;color:var(--muted);">Consultation générale</div></div>
+          <div style="background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);border-radius:8px;padding:4px 8px;color:var(--green);font-size:7.5pt;font-weight:600;">✓ Vu</div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">
+          <div style="background:rgba(245,158,11,.2);border-radius:10px;padding:6px 10px;font-size:8pt;font-weight:700;color:var(--accent);flex-shrink:0;">09h00</div>
+          <div style="flex:1;"><div style="font-size:9.5pt;font-weight:600;color:var(--text);">Sawadogo Odile</div><div style="font-size:7.5pt;color:var(--muted);">Suivi tension artérielle</div></div>
+          <div style="background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:4px 8px;color:var(--accent);font-size:7.5pt;font-weight:600;">⏳ Attente</div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">
+          <div style="background:rgba(124,58,237,.2);border-radius:10px;padding:6px 10px;font-size:8pt;font-weight:700;color:var(--violet-l);flex-shrink:0;">11h00</div>
+          <div style="flex:1;"><div style="font-size:9.5pt;font-weight:600;color:var(--text);">Traoré Issa</div><div style="font-size:7.5pt;color:var(--muted);">Consultation générale</div></div>
+          <div style="background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);border-radius:8px;padding:4px 8px;color:var(--violet-l);font-size:7.5pt;font-weight:600;">📅 RDV</div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid #3d2d6e;border-radius:12px;padding:11px 13px;display:flex;align-items:center;gap:10px;">
+          <div style="background:rgba(124,58,237,.2);border-radius:10px;padding:6px 10px;font-size:8pt;font-weight:700;color:var(--violet-l);flex-shrink:0;">14h00</div>
+          <div style="flex:1;"><div style="font-size:9.5pt;font-weight:600;color:var(--text);">Zongo Fatima</div><div style="font-size:7.5pt;color:var(--muted);">Suivi diabète</div></div>
+          <div style="background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);border-radius:8px;padding:4px 8px;color:var(--violet-l);font-size:7.5pt;font-weight:600;">📅 RDV</div>
+        </div>
+      </div>
+
+      <div class="bottom-nav" style="position:relative;">
+        <div class="nav-item active"><div class="ni-icon">📊</div><div class="ni-lbl">Planning</div></div>
+        <div class="nav-item"><div class="ni-icon">👥</div><div class="ni-lbl">Patients</div></div>
+        <div class="nav-item"><div class="ni-icon">📋</div><div class="ni-lbl">Résultats</div></div>
+        <div class="nav-item"><div class="ni-icon">⚙️</div><div class="ni-lbl">Réglages</div></div>
+      </div>
+    </div>
+
+  </div><!-- /phone -->
+</div><!-- /phone-wrap -->
+
+<!-- LÉGENDE -->
+<div class="legend">
+  <div class="legend-item"><strong>Écran 1</strong> Connexion (patient/médecin)</div>
+  <div class="legend-item"><strong>Écran 2</strong> Tableau de bord patient</div>
+  <div class="legend-item"><strong>Écran 3</strong> Détail résultat</div>
+  <div class="legend-item"><strong>Écran 4</strong> Interface labo</div>
+  <div class="legend-item"><strong>Écran 5</strong> Chatbot IA</div>
+  <div class="legend-item"><strong>Écran 6</strong> Paiement en ligne</div>
+  <div class="legend-item"><strong>Écran 7</strong> Prise de RDV</div>
+  <div class="legend-item"><strong>Écran 8</strong> Tableau de bord médecin</div>
+</div>
+
+<script>
+  // ── Déconnexion ──
+  function seDeconnecter() {
+    // Cacher tous les boutons de navigation sauf Connexion
+    document.querySelectorAll('.nav-patient, .nav-medecin, .nav-labo').forEach(b => b.style.display = 'none');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.nav-btn:first-child').classList.add('active');
+    // Revenir à l'écran de connexion
+    document.getElementById('loginEmail').value = '';
+    showScreen('s-login', document.querySelector('.nav-btn:first-child'));
+  }
+
+  // ── Navigation ──
+  function showScreen(id, btn) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (btn) {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    // Initialiser les créneaux quand on ouvre l'écran RDV
+    if (id === 's-rdv') setTimeout(initCreneaux, 50);
+  }
+
+  // ── Connexion intelligente ──
+  function seConnecter() {
+    const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+
+    // Masquer tous les boutons nav sauf connexion
+    document.querySelectorAll('.nav-patient, .nav-medecin, .nav-labo').forEach(b => b.style.display = 'none');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+    if (email.includes('medecin')) {
+      document.querySelectorAll('.nav-patient').forEach(b => b.style.display = 'none');
+      document.querySelectorAll('.nav-labo').forEach(b => b.style.display = 'none');
+      document.querySelectorAll('.nav-medecin').forEach(b => b.style.display = 'inline-block');
+      showScreen('s-medecin', document.querySelector('.nav-medecin'));
+    } else if (email.includes('labo')) {
+      document.querySelectorAll('.nav-patient').forEach(b => b.style.display = 'none');
+      document.querySelectorAll('.nav-medecin').forEach(b => b.style.display = 'none');
+      document.querySelectorAll('.nav-labo').forEach(b => b.style.display = 'inline-block');
+      showScreen('s-labo', document.querySelector('.nav-labo'));
+    } else {
+      document.querySelectorAll('.nav-medecin').forEach(b => b.style.display = 'none');
+      document.querySelectorAll('.nav-labo').forEach(b => b.style.display = 'none');
+      document.querySelectorAll('.nav-patient').forEach(b => b.style.display = 'inline-block');
+      showScreen('s-dashboard', document.querySelector('.nav-patient'));
+    }
+  }
+
+  // ── Partage résultat ──
+  let medPartageSelectionne = 'Dr. Ouédraogo S.';
+
+  function ouvrirPartage() {
+    document.getElementById('partageModal').style.display = 'flex';
+    document.getElementById('partageConfirm').style.display = 'none';
+  }
+
+  function fermerPartage() {
+    document.getElementById('partageModal').style.display = 'none';
+  }
+
+  function selectMedPartage(el, nom) {
+    document.querySelectorAll('#medChoix1, #medChoix2').forEach(d => {
+      d.style.border = '1px solid #3d2d6e';
+      d.querySelector('span:last-child').style.opacity = '0';
+    });
+    el.style.border = '2px solid var(--violet)';
+    el.querySelector('span:last-child').style.opacity = '1';
+    medPartageSelectionne = nom;
+  }
+
+  function confirmerPartage() {
+    fermerPartage();
+    document.getElementById('nomMedPartage').textContent = medPartageSelectionne;
+    document.getElementById('partageConfirm').style.display = 'block';
+    // Activer la notification dans l'espace médecin
+    document.getElementById('notifBadge').style.display = 'block';
+  }
+
+  function afficherNotif() {
+    document.getElementById('notifResultat').style.display = 'block';
+    document.getElementById('notifBadge').style.display = 'none';
+  }
+
+  // ── Prise de RDV ──
+  // Créneaux avec état : disponible, pris, sélectionné
+  let creneaux = [
+    { heure: '08h00', pris: false },
+    { heure: '09h00', pris: false },
+    { heure: '10h00', pris: true },  // déjà pris
+    { heure: '11h00', pris: false },
+    { heure: '14h00', pris: true },  // déjà pris
+    { heure: '15h00', pris: false },
+    { heure: '16h00', pris: false },
+    { heure: '16h30', pris: false },
+  ];
+  let creneauSelectionne = null;
+  let cliniqueSelectionnee = 'Polyclinique A';
+
+  function initCreneaux() {
+    const grid = document.getElementById('creneauxGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    creneaux.forEach((c, i) => {
+      const div = document.createElement('div');
+      div.style.cssText = `border-radius:10px;padding:8px;text-align:center;font-size:9pt;font-weight:700;transition:all .2s;`;
+      if (c.pris) {
+        div.style.background = '#1a1035';
+        div.style.border = '1px solid #2a1f4e';
+        div.style.color = 'var(--muted)';
+        div.textContent = c.heure + ' 🚫';
+        div.title = 'Créneau déjà pris';
+      } else {
+        div.style.background = 'var(--card)';
+        div.style.border = '1px solid #3d2d6e';
+        div.style.color = 'var(--text)';
+        div.style.cursor = 'pointer';
+        div.textContent = c.heure;
+        div.onclick = () => selectCreneau(div, i);
+      }
+      grid.appendChild(div);
+    });
+  }
+
+  function selectCreneau(el, index) {
+    // Désélectionner tous
+    document.querySelectorAll('#creneauxGrid div').forEach(d => {
+      if (!d.textContent.includes('🚫')) {
+        d.style.border = '1px solid #3d2d6e';
+        d.style.color = 'var(--text)';
+        d.style.background = 'var(--card)';
+      }
+    });
+    // Sélectionner celui-ci
+    el.style.border = '2px solid var(--violet)';
+    el.style.color = 'var(--violet-l)';
+    creneauSelectionne = creneaux[index];
+  }
+
+  function selectRdvType(el) {
+    el.parentElement.querySelectorAll('div').forEach(d => { d.style.border = '1px solid #3d2d6e'; });
+    el.style.border = '2px solid var(--violet)';
+    initCreneaux(); // Recharger les créneaux quand on change de type
+  }
+
+  function selectRdvClinic(el) {
+    el.parentElement.querySelectorAll('div').forEach(d => {
+      d.style.border = '1px solid #3d2d6e';
+      const check = d.querySelector('span:last-child');
+      if (check) check.textContent = '';
+    });
+    el.style.border = '2px solid var(--violet)';
+    const check = el.querySelector('span:last-child');
+    if (check) check.textContent = '✅';
+    // Extraire le nom de la clinique
+    const nomEl = el.querySelector('.pm-name') || el.querySelector('div div:first-child');
+    if (nomEl) cliniqueSelectionnee = nomEl.textContent;
+    initCreneaux(); // Recharger les créneaux selon la clinique
+  }
+
+  function confirmerRdv() {
+    if (!creneauSelectionne) {
+      alert('Veuillez choisir un créneau horaire.');
+      return;
+    }
+    // Marquer le créneau comme pris
+    const idx = creneaux.findIndex(c => c.heure === creneauSelectionne.heure);
+    if (idx !== -1) creneaux[idx].pris = true;
+
+    // Remplir l'écran de confirmation
+    const num = 'RDV-' + Math.floor(1000 + Math.random() * 8999);
+    document.getElementById('rdvNumPassage').textContent = num;
+    document.getElementById('rdvHeure').textContent = creneauSelectionne.heure;
+    document.getElementById('rdvClinique').textContent = cliniqueSelectionnee;
+    document.getElementById('rdvDate').textContent = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+
+    // Aller vers confirmation
+    showScreen('s-rdv-confirm', null);
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  }
+
+  // ── Type de paiement (consultation vs examen) ──
+  let typePayment = 'consultation';
+
+  function selectTypePayment(type) {
+    typePayment = type;
+    const tc = document.getElementById('typeConsultation');
+    const te = document.getElementById('typeExamen');
+    const sc = document.getElementById('servicesConsultation');
+    const se = document.getElementById('servicesExamen');
+    const ie = document.getElementById('infoExamen');
+
+    if (type === 'consultation') {
+      tc.style.background = 'linear-gradient(135deg,var(--violet),var(--violet-d))';
+      tc.style.border = '2px solid var(--violet)';
+      tc.querySelector('div:nth-child(2)').style.color = '#fff';
+      te.style.background = 'var(--card)';
+      te.style.border = '1px solid #3d2d6e';
+      te.querySelector('div:nth-child(2)').style.color = 'var(--text)';
+      sc.style.display = 'grid';
+      se.style.display = 'none';
+      ie.style.display = 'none';
+    } else {
+      te.style.background = 'linear-gradient(135deg,var(--green),#059669)';
+      te.style.border = '2px solid var(--green)';
+      te.querySelector('div:nth-child(2)').style.color = '#fff';
+      tc.style.background = 'var(--card)';
+      tc.style.border = '1px solid #3d2d6e';
+      tc.querySelector('div:nth-child(2)').style.color = 'var(--text)';
+      sc.style.display = 'none';
+      se.style.display = 'grid';
+      ie.style.display = 'block';
+      selectedPrice = 8000;
+      majTotal();
+    }
+  }
+
+  // ── Paiement ──
+  let selectedPrice = 5000;
+  let assuranceTaux = 0;
+
+  function selectService(el, name, price) {
+    document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedPrice = price;
+    majTotal();
+  }
+
+  function selectMethod(el) {
+    document.querySelectorAll('.pay-method').forEach(m => {
+      if (!m.getAttribute('onclick').includes('selectAssurance')) m.classList.remove('selected');
+    });
+    el.classList.add('selected');
+  }
+
+  function selectAssurance(el, taux) {
+    document.querySelectorAll('[onclick*="selectAssurance"]').forEach(m => m.classList.remove('selected'));
+    el.classList.add('selected');
+    assuranceTaux = taux;
+    // Afficher ou masquer le champ numéro d'assuré
+    const box = document.getElementById('assurCodeBox');
+    const status = document.getElementById('codeStatus');
+    if (taux > 0) {
+      box.style.display = 'block';
+      status.style.display = 'none';
+      document.getElementById('assurCode').value = '';
+    } else {
+      box.style.display = 'none';
+    }
+    majTotal();
+  }
+
+  function verifierCode() {
+    const code = document.getElementById('assurCode').value.trim();
+    const status = document.getElementById('codeStatus');
+    if (!code) {
+      status.style.display = 'block';
+      status.style.color = '#EF4444';
+      status.textContent = '⚠️ Veuillez saisir votre numéro d\'assuré.';
+      return;
+    }
+    // Simulation vérification (dans la vraie appli → appel API assurance)
+    status.style.display = 'block';
+    status.style.color = 'var(--muted)';
+    status.textContent = '⏳ Vérification en cours...';
+    setTimeout(() => {
+      status.style.color = 'var(--green)';
+      status.textContent = '✅ Numéro vérifié — prise en charge confirmée.';
+      majTotal();
+    }, 1500);
+  }
+
+  function majTotal() {
+    if (assuranceTaux > 0) {
+      const prise = Math.round(selectedPrice * assuranceTaux / 100);
+      const ticket = selectedPrice - prise;
+      document.getElementById('assurInfo').style.display = 'flex';
+      document.getElementById('totalNormal').style.display = 'none';
+      document.getElementById('assurPart').textContent = '- ' + prise.toLocaleString('fr-FR') + ' FCFA';
+      document.getElementById('ticketMod').textContent = ticket.toLocaleString('fr-FR') + ' FCFA';
+    } else {
+      document.getElementById('assurInfo').style.display = 'none';
+      document.getElementById('totalNormal').style.display = 'flex';
+      document.getElementById('payTotal').textContent = selectedPrice.toLocaleString('fr-FR') + ' FCFA';
+    }
+  }
+
+  function confirmerPaiement() {
+    document.getElementById('payForm').style.display = 'none';
+    const num = typePayment === 'consultation'
+      ? 'CON-' + Math.floor(1000 + Math.random() * 8999)
+      : 'EXA-' + Math.floor(1000 + Math.random() * 8999);
+    document.getElementById('numPassage').textContent = num;
+
+    // Message selon le type
+    const subMsg = typePayment === 'consultation'
+      ? 'Présentez ce numéro à l\'accueil · Consultation'
+      : 'Déposez ce numéro au laboratoire · Résultats disponibles dans l\'appli';
+    document.querySelector('.nb-sub').textContent = subMsg;
+
+    document.getElementById('payConfirm').classList.add('visible');
+  }
+
+  function nouveauPaiement() {
+    document.getElementById('payConfirm').classList.remove('visible');
+    document.getElementById('payForm').style.display = 'block';
+  }
+
+  // ── Reconnaissance vocale ──
+  let recognition = null;
+  let isRecording = false;
+
+  function toggleMic() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      addChatMsg("La reconnaissance vocale n'est pas supportée par votre navigateur. Essayez Chrome. 🔄", 'bot');
+      return;
+    }
+    if (isRecording) {
+      recognition.stop();
+      return;
+    }
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    // Détection auto de langue — on laisse le navigateur choisir
+    recognition.lang = '';
+
+    const micBtn = document.getElementById('micBtn');
+    const input = document.getElementById('chatInput');
+
+    recognition.onstart = () => {
+      isRecording = true;
+      micBtn.classList.add('recording');
+      micBtn.title = 'Arrêter';
+      input.placeholder = '🔴 Écoute en cours...';
+    };
+
+    recognition.onresult = (e) => {
+      const transcript = e.results[0][0].transcript;
+      input.value = transcript;
+      sendChat();
+    };
+
+    recognition.onerror = () => {
+      addChatMsg("Je n'ai pas pu vous entendre. Réessayez. 🎤", 'bot');
+    };
+
+    recognition.onend = () => {
+      isRecording = false;
+      micBtn.classList.remove('recording');
+      micBtn.title = 'Parler';
+      input.placeholder = 'Parlez ou écrivez...';
+    };
+
+    recognition.start();
+  }
+
+  // ── Chatbot ──
+  const SYSTEM_PROMPT = `Tu es l'assistant médical de l'application Hihinemma Result, une application burkinabè qui permet aux patients de consulter leurs résultats d'examens médicaux à distance.
+Ton rôle est triple :
+1. Expliquer les résultats médicaux en langage simple (glycémie, NFS, créatinine, etc.)
+2. Guider le patient dans l'utilisation de l'application
+3. Conseiller le patient selon ses résultats, en insistant sur la nécessité de consulter un médecin
+Règles importantes :
+- Tu parles CINQ langues : français, anglais, mooré, dioula et peulh (fulfuldé). Détecte automatiquement la langue du patient et réponds dans la même langue.
+- Si le patient écrit ou parle en mooré, réponds en mooré. En dioula → dioula. En peulh → peulh. En anglais → anglais. En français → français.
+- Si tu n'es pas sûr de la langue, réponds en français ET propose les autres langues disponibles.
+- Sois toujours chaleureux, rassurant, ne pose jamais de diagnostic, intègre le contexte burkinabè (CHU Yalgado, Polyclinique, Clinique Sauver...), réponses concises max 4-5 phrases, emojis avec modération.`;
+
+  let chatHistory = [];
+
+  function getTime() {
+    return new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function addChatMsg(text, role) {
+    const container = document.getElementById('chatMsgs');
+    const typing = document.getElementById('typingWrap');
+    const div = document.createElement('div');
+    div.className = `cmsg ${role}`;
+    if (role === 'bot') {
+      div.innerHTML = `<div class="cmsg-avatar">🤖</div><div><div class="cmsg-bubble">${text.replace(/\n/g,'<br>')}</div><div class="cmsg-time">${getTime()}</div></div>`;
+    } else {
+      div.innerHTML = `<div><div class="cmsg-bubble">${text}</div><div class="cmsg-time">${getTime()}</div></div>`;
+    }
+    container.insertBefore(div, typing);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function setTyping(v) {
+    document.getElementById('typingWrap').classList.toggle('visible', v);
+    const c = document.getElementById('chatMsgs');
+    c.scrollTop = c.scrollHeight;
+  }
+
+  async function sendChat() {
+    const input = document.getElementById('chatInput');
+    const btn = document.getElementById('chatSendBtn');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = ''; input.disabled = true; btn.disabled = true;
+    addChatMsg(text, 'user');
+    chatHistory.push({ role: 'user', content: text });
+    setTyping(true);
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYSTEM_PROMPT, messages: chatHistory })
+      });
+      const data = await res.json();
+      const reply = data.content?.[0]?.text || "Désolé, réessayez. 🔄";
+      setTyping(false);
+      addChatMsg(reply, 'bot');
+      chatHistory.push({ role: 'assistant', content: reply });
+    } catch(e) {
+      setTyping(false);
+      addChatMsg("Erreur de connexion. Réessayez. 🔄", 'bot');
+    }
+    input.disabled = false; btn.disabled = false; input.focus();
+  }
+
+  function sendQuick(text) {
+    document.getElementById('chatInput').value = text;
+    sendChat();
+  }
+</script>
+</body>
+</html>
